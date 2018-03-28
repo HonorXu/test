@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.honor.dal.mapper.BookMapper">
+	<resultMap id="book" type="com.honor.model.Book">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="subtitle" column="subtitle" />
+		<result property="author" column="author" />
+		<result property="typeId" column="type_id" />
+		<result property="publishDate" column="publish_date" />
+		<result property="publisher" column="publisher" />
+		<result property="coverPic" column="cover_pic" />
+		<result property="binding" column="binding" />
+		<result property="pages" column="pages" />
+		<result property="price" column="price" />
+		<result property="isbn" column="isbn" />
+		<result property="authorIntro" column="author_intro" />
+		<result property="summary" column="summary" />
+		<result property="borrowTimes" column="borrow_times" />
+		<result property="bookTotal" column="book_total" />
+		<result property="bookBorrowed" column="book_borrowed" />
+		<result property="status" column="status" />
+	</resultMap>
+
+	<select id="load" resultMap="book" parameterType="Object">
+		SELECT * FROM book WHERE id = #{id}
+	</select>
+	
+	<select id="loadAll" resultMap="book">
+		SELECT * FROM book
+	</select>
+	
+	<delete id="remove">
+		DELETE FROM book WHERE id = #{id}
+	</delete>
+	
+	<update id="updateNotNull" parameterType="com.honor.model.Book">
+		UPDATE book
+		<set>
+	   		<if test="title != null">
+	   		title = #{title},
+	   		</if>
+	   		<if test="subtitle != null">
+	   		subtitle = #{subtitle},
+	   		</if>
+	   		<if test="author != null">
+	   		author = #{author},
+	   		</if>
+	   		<if test="typeId != null">
+	   		type_id = #{typeId},
+	   		</if>
+	   		<if test="publishDate != null">
+	   		publish_date = #{publishDate},
+	   		</if>
+	   		<if test="publisher != null">
+	   		publisher = #{publisher},
+	   		</if>
+	   		<if test="coverPic != null">
+	   		cover_pic = #{coverPic},
+	   		</if>
+	   		<if test="binding != null">
+	   		binding = #{binding},
+	   		</if>
+	   		<if test="pages != null">
+	   		pages = #{pages},
+	   		</if>
+	   		<if test="price != null">
+	   		price = #{price},
+	   		</if>
+	   		<if test="isbn != null">
+	   		isbn = #{isbn},
+	   		</if>
+	   		<if test="authorIntro != null">
+	   		author_intro = #{authorIntro},
+	   		</if>
+	   		<if test="summary != null">
+	   		summary = #{summary},
+	   		</if>
+	   		<if test="borrowTimes != null">
+	   		borrow_times = #{borrowTimes},
+	   		</if>
+	   		<if test="bookTotal != null">
+	   		book_total = #{bookTotal},
+	   		</if>
+	   		<if test="bookBorrowed != null">
+	   		book_borrowed = #{bookBorrowed},
+	   		</if>
+	   		<if test="status != null">
+	   		status = #{status},
+	   		</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<insert id="insert" parameterType="com.honor.model.Book">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">SELECT LAST_INSERT_ID()</selectKey>
+		INSERT INTO book(
+		title,
+		subtitle,
+		author,
+		type_id,
+		publish_date,
+		publisher,
+		cover_pic,
+		binding,
+		pages,
+		price,
+		isbn,
+		author_intro,
+		summary,
+		borrow_times,
+		book_total,
+		book_borrowed,
+		status
+		)VALUES(
+		#{title},
+		#{subtitle},
+		#{author},
+		#{typeId},
+		#{publishDate},
+		#{publisher},
+		#{coverPic},
+		#{binding},
+		#{pages},
+		#{price},
+		#{isbn},
+		#{authorIntro},
+		#{summary},
+		#{borrowTimes},
+		#{bookTotal},
+		#{bookBorrowed},
+		#{status}
+		)
+	</insert>
+	
+	<select id="selectByTypeId" parameterType="Integer" resultMap="book">
+		SELECT * FROM book WHERE type_id = #{typeId}
+	</select>
+	
+	<select id="selectByIsbn" parameterType="String" resultMap="book">
+		SELECT * FROM book WHERE isbn = #{isbn}
+	</select>
+	
+</mapper>

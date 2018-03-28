@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.honor.dal.mapper.BookTypeMapper">
+	<resultMap id="bookType" type="com.honor.model.BookType">
+		<result property="id" column="id" />
+		<result property="typeName" column="type_name" />
+		<result property="parentId" column="parent_id" />
+		<result property="level" column="level" />
+		<result property="sort" column="sort" />
+		<result property="desc" column="desc" />
+	</resultMap>
+
+	<select id="load" resultMap="bookType" parameterType="Object">
+		SELECT * FROM book_type WHERE id = #{id}
+	</select>
+	
+	<select id="loadAll" resultMap="bookType">
+		SELECT * FROM book_type
+	</select>
+	
+	<delete id="remove">
+		DELETE FROM book_type WHERE id = #{id}
+	</delete>
+	
+	<update id="updateNotNull" parameterType="com.honor.model.BookType">
+		UPDATE book_type
+		<set>
+	   		<if test="typeName != null">
+	   		type_name = #{typeName},
+	   		</if>
+	   		<if test="parentId != null">
+	   		parent_id = #{parentId},
+	   		</if>
+	   		<if test="level != null">
+	   		level = #{level},
+	   		</if>
+	   		<if test="sort != null">
+	   		sort = #{sort},
+	   		</if>
+	   		<if test="desc != null">
+	   		desc = #{desc},
+	   		</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<insert id="insert" parameterType="com.honor.model.BookType">
+		<selectKey resultType="int" keyProperty="id" order="AFTER">SELECT LAST_INSERT_ID()</selectKey>
+		INSERT INTO book_type(
+		type_name,
+		parent_id,
+		level,
+		sort,
+		desc
+		)VALUES(
+		#{typeName},
+		#{parentId},
+		#{level},
+		#{sort},
+		#{desc}
+		)
+	</insert>
+	
+</mapper>
